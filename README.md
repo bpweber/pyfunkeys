@@ -1,7 +1,7 @@
 # pyfunkeys
 ## A wrapper for creating custom function layers in python
 > [!NOTE]
-> Key name syntaxes are from [keyboard](https://github.com/boppreh/keyboard) and [pyautogui](https://github.com/asweigart/pyautogui)
+> Key name syntaxes are from [keyboard](https://github.com/boppreh/keyboard/blob/master/keyboard/_canonical_names.py) and [pyautogui](https://github.com/asweigart/pyautogui/blob/master/pyautogui/_pyautogui_win.py)
 
 You can edit `./pyfunkeys/maps.cfg` to change key bindings.
 
