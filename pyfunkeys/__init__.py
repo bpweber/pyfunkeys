@@ -1,3 +1,4 @@
+import os
 import keyboard
 import pyautogui
 
@@ -11,6 +12,28 @@ UP = 0
 key_maps = {}
 
 fn_keys = []
+
+def load_keys_from_config():
+    global fn_keys, key_maps
+    key_maps = get_all_keys_from_config()
+    fn_keys = get_fn_keys_from_config()
+
+def get_all_keys_from_config():
+    key_maps = {}
+    with open(os.path.dirname(__file__) + '/../config/key_maps.csv') as f:
+        pairs = f.readlines()
+        for pair in pairs:
+            pair = pair.split(',')
+            key_maps[pair[0].strip()] = pair[1].strip()
+    return key_maps
+
+def get_fn_keys_from_config():
+    fn_keys = []
+    with open(os.path.dirname(__file__) + '/../config/fn_keys.csv') as f:
+        keys = f.read().split(',')
+        for key in keys:
+            fn_keys.append(key.strip())     
+    return fn_keys
 
 def add_key_map(key, map):
     key_maps[key] = map
