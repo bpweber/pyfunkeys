@@ -1,1 +1,1 @@
-python example.py
+python -m pyfunkeys
