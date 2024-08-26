@@ -13,25 +13,20 @@ key_maps = {}
 fn_keys = []
 
 def load_keys_from_config():
-    global fn_keys, key_maps
     with open(os.path.dirname(__file__) + '/maps.cfg') as f:
         lines = f.readlines()
         for i, line in enumerate(lines):
             if i == 0:
-                if ',' in line:
-                    for fnk in line.split(','):
-                        add_fn_key(fnk)
-                else:
-                    add_fn_key(line)
+                add_fn_keys(line.split(','))
             elif '->' in line:
-                km = line.split('->')
-                add_key_map(km[0], km[1]) 
+                add_key_map(line.split('->'))
 
-def add_key_map(key, map):
-    key_maps[key.strip()] = map.strip()
+def add_key_map(keys):
+    key_maps[keys[0].strip()] = keys[1].strip()
 
-def add_fn_key(key):
-    fn_keys.append(key.strip())
+def add_fn_keys(keys):
+    for key in keys:
+        fn_keys.append(key.strip())
 
 def fn(keypos):
     if keypos is DOWN:
