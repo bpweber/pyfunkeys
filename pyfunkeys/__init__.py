@@ -9,7 +9,8 @@ pyautogui.PAUSE = 0.0
 DOWN = 1
 UP = 0
 
-key_maps = {}
+fn_layer_maps = {}
+base_layer_maps = {}
 fn_keys = []
 
 def load_keys_from_config():
@@ -19,10 +20,15 @@ def load_keys_from_config():
             if i == 0:
                 add_fn_keys(line.split(','))
             elif '->' in line:
-                add_key_map(line.split('->'))
+                add_fn_layer_map(line.split('->'))
+            elif ':' in line:
+                add_base_layer_map(line.split(':'))
 
-def add_key_map(keys):
-    key_maps[keys[0].strip()] = keys[1].strip()
+def add_fn_layer_map(keys):
+    fn_layer_maps[keys[0].strip()] = keys[1].strip()
+
+def add_base_layer_map(keys):
+    base_layer_maps[keys[0].strip()] = keys[1].strip()
 
 def add_fn_keys(keys):
     for key in keys:
@@ -30,15 +36,24 @@ def add_fn_keys(keys):
 
 def fn(keypos):
     if keypos is DOWN:
-        map_all_keys()
+        keyboard.unhook_all()
+        map_keys(fn_layer_maps)
+        map_fn_keys()
     else:
         keyboard.unhook_all()
+        map_keys(base_layer_maps)
         map_fn_keys()
 
-def map_all_keys():
-    for key, val in key_maps.items():
-        map_key(key, DOWN, pyautogui.keyDown, val)
-        map_key(key, UP, pyautogui.keyUp, val)
+def map_keys(keys=base_layer_maps):
+    for key, val in keys.items():
+        if '+' in val:
+            map_hotkey(key, val.split('+'))
+        else:
+            map_key(key, DOWN, pyautogui.keyDown, val)
+            map_key(key, UP, pyautogui.keyUp, val)
+
+def map_hotkey(key, hotkey):
+    map_key(key, DOWN, pyautogui.hotkey, hotkey)
 
 def map_fn_keys():
     for key in fn_keys:
@@ -51,3 +66,4 @@ def map_key(key, keypos, func, arg=None):
         keyboard.on_press_key(key, lambda e: func(arg), suppress=True)
     else:
         keyboard.on_release_key(key, lambda e: func(arg), suppress=True)
+
