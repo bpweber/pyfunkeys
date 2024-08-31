@@ -20,15 +20,12 @@ def load_keys_from_config():
             if i == 0:
                 add_fn_keys(line.split(','))
             elif '->' in line:
-                add_fn_layer_map(line.split('->'))
+                add_layer_map(fn_layer_maps, line.split('->'))
             elif ':' in line:
-                add_base_layer_map(line.split(':'))
+                add_layer_map(base_layer_maps, line.split(':'))
 
-def add_fn_layer_map(keys):
-    fn_layer_maps[keys[0].strip()] = keys[1].strip()
-
-def add_base_layer_map(keys):
-    base_layer_maps[keys[0].strip()] = keys[1].strip()
+def add_layer_map(layer, keys):
+    layer[keys[0].strip()] = keys[1].strip()
 
 def add_fn_keys(keys):
     for key in keys:
@@ -47,8 +44,8 @@ def fn(keypos):
 def map_keys(keys=base_layer_maps):
     for key, val in keys.items():
         if '+' in val:
-            map_hotkey(key, val.split('+'))
-        else:
+            map_key(key, DOWN, pyautogui.hotkey, val.split('+'))
+        else: 
             map_key(key, DOWN, pyautogui.keyDown, val)
             map_key(key, UP, pyautogui.keyUp, val)
 
