@@ -49,9 +49,6 @@ def map_keys(keys=base_layer_maps):
             map_key(key, DOWN, pyautogui.keyDown, val)
             map_key(key, UP, pyautogui.keyUp, val)
 
-def map_hotkey(key, hotkey):
-    map_key(key, DOWN, pyautogui.hotkey, hotkey)
-
 def map_fn_keys():
     for key in fn_keys:
         map_key(key, DOWN, fn)
