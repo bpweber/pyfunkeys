@@ -50,10 +50,13 @@ def map_fn_keys():
 
 def map_key(key, keypos, func, arg=None):
     arg = keypos if arg is None else arg
-    if keypos is DOWN:
-        keyboard.on_press_key(key, lambda e: func(arg), suppress=True)
+    if arg == 'none':
+        keyboard.block_key(key)
     else:
-        keyboard.on_release_key(key, lambda e: func(arg), suppress=True)
+        if keypos is DOWN:
+            keyboard.on_press_key(key, lambda e: func(arg), suppress=True)
+        else:
+            keyboard.on_release_key(key, lambda e: func(arg), suppress=True)
 
 def on_init():
     print(__name__, 'version', __version__)
