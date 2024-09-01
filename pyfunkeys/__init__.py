@@ -1,10 +1,7 @@
 import os
 import keyboard
-import pyautogui
 
 __version__ = '0.0.1'
-
-pyautogui.PAUSE = 0.0
 
 DOWN = 1
 UP = 0
@@ -43,11 +40,8 @@ def fn(keypos):
 
 def map_keys(keys=base_layer_maps):
     for key, val in keys.items():
-        if '+' in val:
-            map_key(key, DOWN, pyautogui.hotkey, val.split('+'))
-        else: 
-            map_key(key, DOWN, pyautogui.keyDown, val)
-            map_key(key, UP, pyautogui.keyUp, val)
+        map_key(key, DOWN, keyboard.press, val)
+        map_key(key, UP, keyboard.release, val)
 
 def map_fn_keys():
     for key in fn_keys:
@@ -60,4 +54,16 @@ def map_key(key, keypos, func, arg=None):
         keyboard.on_press_key(key, lambda e: func(arg), suppress=True)
     else:
         keyboard.on_release_key(key, lambda e: func(arg), suppress=True)
+
+def on_init():
+    print(__name__, 'version', __version__)
+    load_keys_from_config()
+    keyboard.unhook_all()
+    map_keys(base_layer_maps)
+    map_fn_keys()
+
+def on_exit():
+    print('Exiting and unhooking all keys!')
+    keyboard.unhook_all()
+    os._exit(0)
 
