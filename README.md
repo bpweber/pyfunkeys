@@ -1,9 +1,12 @@
 # pyfunkeys
-## A wrapper for creating custom function layers in python
+## A wrapper for [keyboard](https://github.com/boppreh/keyboard) to easily create custom function layers in python
 > [!NOTE]
-> Key names are from [keyboard](https://github.com/boppreh/keyboard/blob/master/keyboard/_canonical_names.py) and [pyautogui](https://github.com/asweigart/pyautogui/blob/master/pyautogui/_pyautogui_win.py)
+> Available key names can be found [here](https://github.com/boppreh/keyboard/blob/master/keyboard/_canonical_names.py)
 
-Key bindings can be changed by editing `./pyfunkeys/maps.cfg`.
+> [!IMPORTANT]
+> Please exit using a `KeyboardInterrupt` to allow for keys to be properly unhooked.
+
+Key bindings can be changed by editing `./pyfunkeys/maps.cfg`
 
 Below is an example config for adding vim style movement keys to the function layer:
 ```
